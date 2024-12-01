@@ -9,26 +9,22 @@ export default function App() {
     <div className="App">
       <Step step={step} setStep={setStep} />
       <Counter step={step} count={count} setCount={setCount} />
-      <div className="Group">
-        <Today setCount={setCount} />
-        <Reset setStep={setStep} />
-      </div>
+      {count !== 0 && <Today setCount={setCount} />}
     </div>
   );
 }
 
 function Step({ step, setStep }) {
   return (
-    <div className="settings">
-      <button
-        onClick={() => {
-          if (step > 1) setStep((s) => s - 1);
-        }}
-      >
-        -
-      </button>
+    <div className="settings vertical">
       <span>Step: {step}</span>
-      <button onClick={() => setStep((s) => s + 1)}>+</button>
+      <input
+        type="range"
+        value={step}
+        min={1}
+        max={31}
+        onChange={(e) => setStep(Number(e.target.value))}
+      />
     </div>
   );
 }
@@ -40,12 +36,22 @@ function Counter({ step, count, setCount }) {
     <>
       <div className="settings">
         <button onClick={() => setCount((c) => c - step)}>-</button>
-        <span>Count: {count}</span>
+        <span>
+          Count:{" "}
+          <input
+            className="count"
+            type="text"
+            value={count}
+            onChange={(e) => setCount(Number(e.target.value))}
+          />
+        </span>
         <button onClick={() => setCount((c) => c + step)}>+</button>
       </div>
       <p>
         <span>
-          {count === 0
+          {isNaN(count)
+            ? "Input Error"
+            : count === 0
             ? "Today is "
             : count > 0
             ? count === 1
@@ -55,7 +61,9 @@ function Counter({ step, count, setCount }) {
             ? `${Math.abs(count)} day ago was `
             : `${Math.abs(count)} days ago was `}
         </span>
-        <span>{date.toDateString()}</span>
+        <span>
+          {date.toDateString() === "Invalid Date" ? "" : date.toDateString()}
+        </span>
       </p>
     </>
   );
@@ -70,19 +78,6 @@ function Today({ setCount }) {
       className="Today"
     >
       Back to today
-    </button>
-  );
-}
-
-function Reset({ setStep }) {
-  return (
-    <button
-      onClick={() => {
-        setStep(1);
-      }}
-      className="Reset"
-    >
-      Reset steps
     </button>
   );
 }
