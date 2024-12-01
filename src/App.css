@@ -58,21 +58,24 @@ button:active {
 }
 
 .settings {
-  min-width: 50%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
 }
 
-.Today,
-.Reset {
+.vertical {
+  flex-direction: column;
+}
+
+.count {
+  font-size: inherit;
+  text-align: center;
+  width: 10rem;
+}
+
+.Today {
   font-size: 1.8rem;
   width: auto;
   padding: 0 1rem;
-}
-
-.Group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
 }
